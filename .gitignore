@@ -1,0 +1,9 @@
+#General
+*~
+
+#Arduino
+*.o
+*.hex
+*/.dep
+*/.lib
+
