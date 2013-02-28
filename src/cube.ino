@@ -7,6 +7,7 @@ Thermostat th(13, 6);
 void setup() {
     th.setup();
     th.attachControlButtons(2, 3, 4);
+    th.attachAlarm(5);
     th.attachLcd(new LiquidCrystal(7, 8, 9, 10, 11, 12), 16, 2);
 }
 

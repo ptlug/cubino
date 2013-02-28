@@ -12,6 +12,7 @@ Thermostat::Thermostat(int pinSwitch, int pinTempBus) {
     temperature = TEMP_DEFAULT;
     this->pinSwitch = pinSwitch;
     this->pinTempBus = pinTempBus;
+    pinAlarm = -1;
 }
 
 void Thermostat::setup() {
@@ -19,6 +20,11 @@ void Thermostat::setup() {
     tempBus = new OneWire(pinTempBus);
     tempSensors = new DallasTemperature(tempBus);
     pinMode(pinSwitch, OUTPUT);
+}
+
+void Thermostat::attachAlarm(int pinAlarm) {
+    this->pinAlarm = pinAlarm;
+    pinMode(pinAlarm, OUTPUT);
 }
 
 void Thermostat::attachLcd(LiquidCrystal *lcd, int columns, int rows) {
@@ -122,13 +128,37 @@ void Thermostat::processTemperature() {
         return;
 
     tempSensors->requestTemperatures();
-    intTemp = (float)tempSensors->getTempCByIndex(0);
+    intTemp = (float)tempSensors->getTempCByIndex(1);
+    extTemp = (float)tempSensors->getTempCByIndex(0);
 
-    if(intTemp > temperature)
+    if(intTemp > temperature + ALARM_DELTA) {
+        if(pinAlarm != -1)
+            playAlarm();
+    } else {
+        if(pinAlarm != -1)
+            stopAlarm();
+    }
+
+    if(intTemp > temperature) {
         digitalWrite(pinSwitch, LOW);
-    if(intTemp < temperature - TEMP_DELTA)
+    }
+    if(intTemp < temperature - TEMP_DELTA) {
         digitalWrite(pinSwitch, HIGH);
+    }
 
+}
+
+void Thermostat::playAlarm() {
+    digitalWrite(pinAlarm, alarmStatus);
+    if(alarmStatus == HIGH)
+        alarmStatus = LOW;
+    else
+        alarmStatus = HIGH;
+}
+
+void Thermostat::stopAlarm() {
+    alarmStatus = LOW;
+    digitalWrite(pinAlarm, LOW);
 }
 
 
