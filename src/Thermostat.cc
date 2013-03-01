@@ -69,11 +69,22 @@ void Thermostat::decrement() {
 }
 
 void Thermostat::save() {
-    EEPROM.write(ADDR_TEMPERATURE, (int)(temperature * 10));
+    int part_1 = (int)(temperature);
+    int part_2 = (int)((temperature - part_1) * 10);
+    EEPROM.write(ADDR_TEMPERATURE_1, part_1);
+    EEPROM.write(ADDR_TEMPERATURE_2, part_2);
 }
 
 void Thermostat::load() {
-    temperature = (float)(EEPROM.read(ADDR_TEMPERATURE) / 10.0);
+    int part_1 = EEPROM.read(ADDR_TEMPERATURE_1);
+    int part_2 = EEPROM.read(ADDR_TEMPERATURE_2);
+
+    if(part_1 == 255 && part_2 == 255) {
+        part_1 = 25;
+        part_2 = 5;
+    }
+
+    temperature = (float)(part_1 + (part_2 * 0.1));
 }
 
 void Thermostat::displayTemperature() {

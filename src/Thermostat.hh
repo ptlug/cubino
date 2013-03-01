@@ -3,7 +3,8 @@
 
 #include "DebouncedButton.hh"
 
-#define ADDR_TEMPERATURE 0x16
+#define ADDR_TEMPERATURE_1 0x06
+#define ADDR_TEMPERATURE_2 0x07
 #define TEMP_INCREMENT 0.5
 #define TEMP_DEFAULT 20.0
 #define TEMP_DELTA 2.0
