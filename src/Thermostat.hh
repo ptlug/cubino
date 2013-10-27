@@ -2,6 +2,7 @@
 #define THERMOSTAT_HH
 
 #include "DebouncedButton.hh"
+#include "config.h"
 
 #define ADDR_TEMPERATURE_1 0x06
 #define ADDR_TEMPERATURE_2 0x07
@@ -13,6 +14,7 @@
 class LiquidCrystal;
 class OneWire;
 class DallasTemperature;
+class a18n;
 
 class Thermostat {
 
@@ -30,7 +32,8 @@ class Thermostat {
         LiquidCrystal* display;
         OneWire* tempBus;
         DallasTemperature* tempSensors;
-
+        a18n* imanager;
+        char* translations = "{\"limit\":{\"en\":\"Limit\",\"it\":\"Limite\"}}";
         char* formatTemperature(float num, char *buf);
 
     public:

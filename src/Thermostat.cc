@@ -4,6 +4,7 @@
 #include <EEPROM.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
+#include <a18n.h>
 
 Thermostat::Thermostat(int pinSwitch, int pinTempBus) {
     intTemp = extTemp = 0.0;
@@ -13,6 +14,7 @@ Thermostat::Thermostat(int pinSwitch, int pinTempBus) {
     this->pinSwitch = pinSwitch;
     this->pinTempBus = pinTempBus;
     pinAlarm = -1;
+    imanager = new a18n(translations);
 }
 
 void Thermostat::setup() {
@@ -97,10 +99,10 @@ void Thermostat::displayTemperature() {
     sprintf(row, "In:%s  Ex:%s", formatTemperature(intTemp, buf1), formatTemperature(extTemp, buf2));
     display->setCursor(0, 0);
     display->print(row);
-    sprintf(row, "Limit: %s", formatTemperature(temperature, buf1));
+    char* translation = imanager->getTranslation(LOCALE, "limit");
+    sprintf(row, "%s: %s", translation, formatTemperature(temperature, buf1));
     display->setCursor(0, 1);
     display->print(row);
-
 }
 
 char* Thermostat::formatTemperature(float num, char* buf) {
