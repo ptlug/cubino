@@ -2,7 +2,6 @@
 #define THERMOSTAT_HH
 
 #include "DebouncedButton.hh"
-#include "config.h"
 
 #define ADDR_TEMPERATURE_1 0x06
 #define ADDR_TEMPERATURE_2 0x07
@@ -22,7 +21,7 @@ class Thermostat {
         float temperature;
         float intTemp;
         float extTemp;
-        int lock[3] = {0, 0, 0};
+        int lock[3];
         int pinSwitch, pinTempBus;
         int pinAlarm;
         int alarmStatus;
@@ -33,7 +32,6 @@ class Thermostat {
         OneWire* tempBus;
         DallasTemperature* tempSensors;
         a18n* imanager;
-        char* translations = "{\"limit\":{\"en\":\"Limit\",\"it\":\"Limite\"}}";
         char* formatTemperature(float num, char *buf);
 
     public:

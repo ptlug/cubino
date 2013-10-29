@@ -1,4 +1,6 @@
 #include "Thermostat.hh"
+#include "translations.hh"
+#include "config.hh"
 #include <Arduino.h>
 #include <LiquidCrystal.h>
 #include <EEPROM.h>
@@ -14,7 +16,9 @@ Thermostat::Thermostat(int pinSwitch, int pinTempBus) {
     this->pinSwitch = pinSwitch;
     this->pinTempBus = pinTempBus;
     pinAlarm = -1;
-    imanager = new a18n(LOCALE, translations);
+    for(int i = 0 ; i < 3 ; i++)
+        lock[i] = 0;
+    imanager = new a18n(LOCALE, LIMIT_STR);
 }
 
 void Thermostat::setup() {

@@ -1,15 +1,25 @@
 #include "a18n.h"
 #include "aJSON.h"
 
-a18n::a18n() {}
+a18n::a18n() {
+    init();
+}
 
 a18n::a18n(char* data) {
+    init();
     setData(data);
 }
 
 a18n::a18n(char* locale, char* data) {
+    init();
     this->locale = locale;
     setData(data);
+}
+
+void a18n::init() {
+    this->locale = NULL;
+    this->data = NULL;
+    this->root = NULL;
 }
 
 void a18n::setData(char* data) {
@@ -36,10 +46,14 @@ const char* a18n::getTranslation(char* locale, char* item) {
         root = aJson.parse(this->data);
     if (root != NULL) {
         aJsonObject* jitem = aJson.getObjectItem(root, item);
-        if (item != NULL) {
+        if (jitem != NULL) {
             aJsonObject* jtranslation = aJson.getObjectItem(jitem, locale);
             return jtranslation->valuestring;
+        } else {
+            return NULL;
         }
+    } else {
+        return NULL;
     }
 }
 
