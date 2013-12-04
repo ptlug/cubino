@@ -18,7 +18,7 @@ Thermostat::Thermostat(int pinSwitch, int pinTempBus) {
     pinAlarm = -1;
     for(int i = 0 ; i < 3 ; i++)
         lock[i] = 0;
-    imanager = new a18n(LOCALE, LIMIT_STR);
+    imanager = new a18n(LOCALE, LOCALE_STR);
 }
 
 void Thermostat::setup() {
@@ -100,11 +100,12 @@ void Thermostat::displayTemperature() {
 
     char row[16];
     char buf1[10], buf2[10];
-    sprintf(row, "In:%s  Ex:%s", formatTemperature(intTemp, buf1), formatTemperature(extTemp, buf2));
+    const char* temp_str = imanager->getTranslation("temp");
+    sprintf(row, "%s:%s", temp_str, formatTemperature(intTemp, buf1));
     display->setCursor(0, 0);
     display->print(row);
-    const char* translation = imanager->getTranslation("limit");
-    sprintf(row, "%s: %s", translation, formatTemperature(temperature, buf1));
+    const char* limit_str = imanager->getTranslation("limit");
+    sprintf(row, "%s:%s", limit_str, formatTemperature(temperature, buf1));
     display->setCursor(0, 1);
     display->print(row);
 }

@@ -1,6 +1,6 @@
 #ifndef TRANSLATIONS_HH
 #define TRANSLATIONS_HH
 
-#define LIMIT_STR "{\"limit\":{\"en\":\"Limit\",\"it\":\"Limite\"}}"
+#define LOCALE_STR "{\"limit\":{\"en\":\"Limit\",\"it\":\"Limite\"},\"temp\":{\"en\":\"Temperature\",\"it\":\"Temperatura\"}}"
 
 #endif
