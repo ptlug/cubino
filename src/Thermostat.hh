@@ -20,7 +20,7 @@ class Thermostat {
     private:
         float temperature;
         float intTemp;
-        float extTemp;
+        float intTemp2;
         int lock[3];
         int pinSwitch, pinTempBus;
         int pinAlarm;
@@ -39,7 +39,7 @@ class Thermostat {
         void setup();
         void setTemperature(float temperature);
         float getTemperature();
-        float getExtTemperature();
+        float getIntTemperature2();
         float getIntTemperature();
         void increment();
         void decrement();
