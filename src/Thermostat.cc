@@ -9,7 +9,7 @@
 #include <a18n.h>
 
 Thermostat::Thermostat(int pinSwitch, int pinTempBus) {
-    intTemp = extTemp = 0.0;
+    intTemp = intTemp2 = 0.0;
     btnDec = btnSave = btnInc = 0;
     display = 0;
     temperature = TEMP_DEFAULT;
@@ -58,8 +58,8 @@ float Thermostat::getTemperature() {
     return temperature;
 }
 
-float Thermostat::getExtTemperature() {
-    return extTemp;
+float Thermostat::getIntTemperature2() {
+    return intTemp2;
 }
 
 float Thermostat::getIntTemperature() {
@@ -147,7 +147,7 @@ void Thermostat::processTemperature() {
 
     tempSensors->requestTemperatures();
     intTemp = (float)tempSensors->getTempCByIndex(1);
-    extTemp = (float)tempSensors->getTempCByIndex(0);
+    intTemp2 = (float)tempSensors->getTempCByIndex(0);
 
     if(intTemp > temperature + ALARM_DELTA) {
         if(pinAlarm != -1)
